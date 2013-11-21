@@ -1,3 +1,5 @@
+var http = require('http');
+var parseXmlString = require('xml2js').parseString;
 var noaaData = '';
 
 var options = {
