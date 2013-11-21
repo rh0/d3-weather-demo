@@ -13,9 +13,12 @@ var path = require('path');
 var cronJob = require('cron').CronJob;
 var time = require('time');
 
+// Initializing a cron task to ultimately check noaa data
+// and write it to mongo.
 new cronJob('* * * * * *', function() {
   console.log('jsCron firing every second.');
 }, null, true, "America/Chicago");
+
 
 var app = express();
 
