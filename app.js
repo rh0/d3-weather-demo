@@ -14,9 +14,10 @@ var cronJob = require('cron').CronJob;
 var time = require('time');
 
 new cronJob('* * * * * *', function() {
-
   console.log('jsCron firing every second.');
-}, null, true, "America/Chicago");
+}, function() {
+  conole.log('Cron RAN!');
+}, true, "America/Chicago");
 
 var app = express();
 
