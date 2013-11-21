@@ -10,6 +10,13 @@ var user = require('./routes/user');
 var http = require('http');
 var parseXmlString = require('xml2js').parseString;
 var path = require('path');
+var cronJob = require('cron').CronJob;
+var time = require('time');
+
+new cronJob('* * * * * *', function() {
+
+  console.log('jsCron firing every second.');
+}, null, true, "America/Chicago");
 
 var app = express();
 
