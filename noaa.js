@@ -7,7 +7,7 @@ var options = {
   path: '/xml/current_obs/KATT.xml'
 };
 
-http.get("http://w1.weather.gov/xml/current_obs/KATT.xml", function(res) {
+var fetchWeather = http.get("http://w1.weather.gov/xml/current_obs/KATT.xml", function(res) {
   console.log('STATUS: ' + res.statusCode);
   res.setEncoding('utf8');
   res.on('data', function(chunk) {
@@ -19,7 +19,10 @@ http.get("http://w1.weather.gov/xml/current_obs/KATT.xml", function(res) {
         console.log('There was an error parsing XML: ' + xmlE);
       }
       else {
-        console.log(xmlRes);
+        noaa.NoaaData.create(xmlRes.current_observation, function(err, small) {
+          if(err) return handleError(err);
+          console.log("Saved!");
+        })
       }
     })
   });

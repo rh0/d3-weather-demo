@@ -15,8 +15,8 @@ var time = require('time');
 
 // Initializing a cron task to ultimately check noaa data
 // and write it to mongo.
-new cronJob('* * * * * *', function() {
-  console.log('jsCron firing every second.');
+new cronJob('*/30 * * * * *', function() {
+  console.log('jsCron firing every 30 seconds.');
 }, null, true, "America/Chicago");
 
 
