@@ -15,8 +15,8 @@ var noaa = require('./util/noaa');
 
 // Initializing a cron task to ultimately check noaa data
 // and write it to mongo.
-new cronJob('*/30 * * * * *', function() {
-  console.log('jsCron firing every 30 seconds.');
+new cronJob('0 0 * * * *', function() {
+  console.log('jsCron firing every 1hr.');
   noaa.fetchNoaaData();
 }, null, true, "America/Chicago");
 
@@ -27,18 +27,20 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+// middleware
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//routes
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/weather-data', weather.fetchWeather);
