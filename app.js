@@ -1,22 +1,23 @@
-
 /**
  * Module dependencies.
  */
 
 var express = require('express');
-var db = require('./model/db');
+var http = require('http');
 var routes = require('./routes');
 var user = require('./routes/user');
-var http = require('http');
-var parseXmlString = require('xml2js').parseString;
+var weather = require('./routes/weather');
 var path = require('path');
 var cronJob = require('cron').CronJob;
 var time = require('time');
+var db = require('./model/db');
+var noaa = require('./util/noaa');
 
 // Initializing a cron task to ultimately check noaa data
 // and write it to mongo.
 new cronJob('*/30 * * * * *', function() {
   console.log('jsCron firing every 30 seconds.');
+  noaa.fetchNoaaData();
 }, null, true, "America/Chicago");
 
 
@@ -40,6 +41,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/weather-data', weather.fetchWeather);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
