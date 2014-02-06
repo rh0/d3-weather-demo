@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Log Example' });
+  res.render('index', { title: 'NOAA Weather D3js Example' });
 };

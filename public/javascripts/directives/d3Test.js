@@ -29,9 +29,15 @@ angular.module('graphTest', [])
               .scale(y)
               .orient("left");
 
-          var line = d3.svg.line()
+          var tempLine = d3.svg.line()
+              //.interpolate("basis")
               .x(function(d) { return x(parseDate( d.observation_time )); })
               .y(function(d) { return y(d.temp_f); });
+
+          var dewLine = d3.svg.line()
+              //.interpolate("basis")
+              .x(function(d) { return x(parseDate( d.observation_time )); })
+              .y(function(d) { return y(d.dewpoint_f); });
 
           var svg = d3.select(element[0]).append("svg")
               .attr("width", width + margin.left + margin.right)
@@ -40,7 +46,10 @@ angular.module('graphTest', [])
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
           x.domain(d3.extent(weatherData, function(d) { return parseDate(d.observation_time); }));
-          y.domain(d3.extent(weatherData, function(d) { return d.temp_f; }));
+          y.domain([
+            d3.min(weatherData, function(d) { return Math.min(d.temp_f, d.dewpoint_f); }),
+            d3.max(weatherData, function(d) { return Math.max(d.temp_f, d.dewpoint_f); })
+          ]);
 
           svg.append("g")
               .attr("class", "x axis")
@@ -55,12 +64,19 @@ angular.module('graphTest', [])
               .attr("y", 6)
               .attr("dy", ".71em")
               .style("text-anchor", "end")
-              .text("Value");
+              .text("Temperature (F)");
 
           svg.append("path")
               .datum(weatherData)
               .attr("class", "line")
-              .attr("d", line);
+              .style("stroke", "red")
+              .attr("d", tempLine);
+
+          svg.append("path")
+              .datum(weatherData)
+              .attr("class", "line")
+              .style("stroke", "blue")
+              .attr("d", dewLine);
 
           /*var focus = svg.append("g")
               .attr("class", "line")
