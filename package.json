@@ -1,7 +1,11 @@
 {
-  "name": "application-name",
+  "name": "noaa-d3",
+  "description": "NOAA data on a D3 graph",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
