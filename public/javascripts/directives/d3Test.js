@@ -1,21 +1,22 @@
 angular.module('graphTest', [])
-  .factory('chartData', function($http) {
-    var weatherData = [];
-    $http.get('/weather-data').success(function(data) {
-      data.foreach(function(val, i) {
-        weatherData.push(val);
-      })
-    });
-
-    return weatherData;
+  .factory('chartData', function($http, $q) {
+    return {
+      getWeatherData : function(callback) {
+        $http.get('/weather-data').success(callback);
+      }
+    }
   })
   .directive('graphLine', function(chartData) {
     return {
       link: function(scope, element, attrs) {
-        console.log(chartData);
+        weatherData = [];
+        chartData.getWeatherData(function(d) {
+          weatherData = d;
+          console.log(d);
+        });
 
-        /*var exponentialFormatter = d3.format(".3g"),
-            bisectDate = d3.bisector(function(d) { return d.xVal; }).left;
+        var exponentialFormatter = d3.format(".3g"),
+            bisectDate = d3.bisector(function(d) { return d.observation_time; }).left;
 
         var margin = { top: 20, right: 20, bottom: 30, left: 50 },
             width = 960 - margin.left - margin.right,
@@ -35,8 +36,8 @@ angular.module('graphTest', [])
             .tickFormat(exponentialFormatter);
 
         var line = d3.svg.line()
-            .x(function(d) { return x(d.xVal); })
-            .y(function(d) { return y(d.funcVal); });
+            .x(function(d) { return x(d.observation_time); })
+            .y(function(d) { return y(d.temp_f); });
 
         var svg = d3.select(element[0]).append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -44,8 +45,8 @@ angular.module('graphTest', [])
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        x.domain(d3.extent(data, function(d) { return d.xVal; }));
-        y.domain(d3.extent(data, function(d) { return d.funcVal; }));
+        x.domain(d3.extent(weatherData, function(d) { return d.observation_time; }));
+        y.domain(d3.extent(weatherData, function(d) { return d.temp_f; }));
 
         svg.append("g")
             .attr("class", "x axis")
@@ -63,7 +64,7 @@ angular.module('graphTest', [])
             .text("Value");
 
         svg.append("path")
-            .datum(data)
+            .datum(weatherData)
             .attr("class", "line")
             .attr("d", line);
 
@@ -88,13 +89,13 @@ angular.module('graphTest', [])
 
         function mousemove() {
           var x0 = x.invert(d3.mouse(this)[0]),
-              i = bisectDate(data, x0, 1),
-              d0 = data[i -1],
-              d1 = data[i],
-              d = x0 - d0.xVal > d1.xVal - x0 ? d1 : d0;
-          focus.attr("transform", "translate(" + x(d.xVal) + "," + y(d.funcVal) + ")");
-          focus.select("text").text(d.xVal + ", " + exponentialFormatter(d.funcVal));
-        }*/
+              i = bisectDate(weatherData, x0, 1),
+              d0 = weatherData[i -1],
+              d1 = weatherData[i],
+              d = x0 - d0.observation_time > d1.observation_time - x0 ? d1 : d0;
+          focus.attr("transform", "translate(" + x(d.observation_time) + "," + y(d.temp_f) + ")");
+          focus.select("text").text(d.observation_time + ", " + exponentialFormatter(d.temp_f));
+        }
       }
     };
   });
