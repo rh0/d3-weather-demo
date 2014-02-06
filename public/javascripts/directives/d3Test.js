@@ -40,8 +40,11 @@ angular.module('graphTest', [])
               .y(function(d) { return y(d.dewpoint_f); });
 
           var svg = d3.select(element[0]).append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("heght", height + margin.top + margin.bottom)
+              //.attr("width", width + margin.left + margin.right)
+              //.attr("heght", height + margin.top + margin.bottom)
+              // Firefox fix.
+              .attr("width", window.innerWidth)
+              .attr("height", window.innerHeight)
               .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
