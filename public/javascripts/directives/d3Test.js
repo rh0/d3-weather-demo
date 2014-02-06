@@ -1,25 +1,20 @@
 angular.module('graphTest', [])
-  .factory('chartData', function() {
-    return {
-      logData: function() {
-        var data = [];
-        for(i=1; i<=100; i++) {
-          var datum = {
-            xVal: i,
-            funcVal: Math.log(i)
-          }
-          data.push(datum);
-        }
-        return data;
-      }
-    }
+  .factory('chartData', function($http) {
+    var weatherData = [];
+    $http.get('/weather-data').success(function(data) {
+      data.foreach(function(val, i) {
+        weatherData.push(val);
+      })
+    });
+
+    return weatherData;
   })
   .directive('graphLine', function(chartData) {
     return {
       link: function(scope, element, attrs) {
-        var data = chartData.logData();
+        console.log(chartData);
 
-        var exponentialFormatter = d3.format(".3g"),
+        /*var exponentialFormatter = d3.format(".3g"),
             bisectDate = d3.bisector(function(d) { return d.xVal; }).left;
 
         var margin = { top: 20, right: 20, bottom: 30, left: 50 },
@@ -99,7 +94,7 @@ angular.module('graphTest', [])
               d = x0 - d0.xVal > d1.xVal - x0 ? d1 : d0;
           focus.attr("transform", "translate(" + x(d.xVal) + "," + y(d.funcVal) + ")");
           focus.select("text").text(d.xVal + ", " + exponentialFormatter(d.funcVal));
-        }
+        }*/
       }
     };
   });
