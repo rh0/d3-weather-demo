@@ -76,6 +76,24 @@ angular.module('graphTest', [])
               .style("text-anchor", "end")
               .text("Temperature (F)");
 
+          svg.append("line")
+              .attr("x1", 0)
+              .attr("y1", 32)
+              .attr("x2", width)
+              .attr("y2", 32)
+              .attr("stroke", "lightblue");
+
+          svg.append("text")
+              .attr("x", width)
+              .attr("y", 32)
+              .attr("text-anchor", "end")
+              .text("☃")
+              .attr("fill", "lightblue")
+              .attr("font-size", "45px")
+              .attr("font-weight", "bold");
+
+
+
           // Appending Temp Line
           svg.append("path")
               .datum(weatherData)
