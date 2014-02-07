@@ -15,7 +15,8 @@ angular.module('graphTest', [])
               width = 960 - margin.left - margin.right,
               height = 500 - margin.top - margin.bottom;
 
-          var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse;
+          var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse,
+              bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
           var x = d3.time.scale()
               .range([0, width]);
@@ -30,12 +31,12 @@ angular.module('graphTest', [])
               .orient("left");
 
           var tempLine = d3.svg.line()
-              //.interpolate("basis")
+              .interpolate("basis")
               .x(function(d) { return x(parseDate( d.observation_time )); })
               .y(function(d) { return y(d.temp_f); });
 
           var dewLine = d3.svg.line()
-              //.interpolate("basis")
+              .interpolate("basis")
               .x(function(d) { return x(parseDate( d.observation_time )); })
               .y(function(d) { return y(d.dewpoint_f); });
 
@@ -57,7 +58,13 @@ angular.module('graphTest', [])
           svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
+              .call(xAxis)
+            .append("text")
+              .attr("x", width)
+              .attr("dx", ".71em")
+              .style("text-anchor", "end")
+              .text("Time (UTC)");
+
 
           svg.append("g")
               .attr("class", "y axis")
@@ -69,20 +76,23 @@ angular.module('graphTest', [])
               .style("text-anchor", "end")
               .text("Temperature (F)");
 
+          // Appending Temp Line
           svg.append("path")
               .datum(weatherData)
               .attr("class", "line")
               .style("stroke", "red")
               .attr("d", tempLine);
 
+          // Appending Dew Point Line
           svg.append("path")
               .datum(weatherData)
               .attr("class", "line")
               .style("stroke", "blue")
               .attr("d", dewLine);
 
+          // Hover info
           /*var focus = svg.append("g")
-              .attr("class", "line")
+              .attr("class", "focus")
               .style("display", "none");
 
           focus.append("circle")
@@ -107,7 +117,7 @@ angular.module('graphTest', [])
                 d1 = weatherData[i],
                 d = x0 - d0.observation_time > d1.observation_time - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.observation_time) + "," + y(d.temp_f) + ")");
-            focus.select("text").text( exponentialFormatter(d.temp_f));
+            focus.select("text").text(d.temp_f);
           }*/
         });
       }
