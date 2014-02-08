@@ -16,7 +16,7 @@ angular.module('graphTest', [])
               height = 500 - margin.top - margin.bottom;
 
           var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse,
-              bisectDate = d3.bisector(function(d) { return d.date; }).left;
+              bisectDate = d3.bisector(function(d) { return parseDate(d.observation_time); }).left;
 
           var x = d3.time.scale()
               .range([0, width]);
@@ -78,14 +78,14 @@ angular.module('graphTest', [])
 
           svg.append("line")
               .attr("x1", 0)
-              .attr("y1", 32)
+              .attr("y1", y(32))
               .attr("x2", width)
-              .attr("y2", 32)
+              .attr("y2", y(32))
               .attr("stroke", "lightblue");
 
           svg.append("text")
               .attr("x", width)
-              .attr("y", 32)
+              .attr("y", y(32))
               .attr("text-anchor", "end")
               .text("☃")
               .attr("fill", "lightblue")
@@ -133,8 +133,8 @@ angular.module('graphTest', [])
                 i = bisectDate(weatherData, x0, 1),
                 d0 = weatherData[i -1],
                 d1 = weatherData[i],
-                d = x0 - d0.observation_time > d1.observation_time - x0 ? d1 : d0;
-            focus.attr("transform", "translate(" + x(d.observation_time) + "," + y(d.temp_f) + ")");
+                d = x0 - parseDate( d0.observation_time ) > parseDate( d1.observation_time ) - x0 ? d1 : d0;
+            focus.attr("transform", "translate(" + x(parseDate(d.observation_time)) + "," + y(d.temp_f) + ")");
             focus.select("text").text(d.temp_f);
           }*/
         });
