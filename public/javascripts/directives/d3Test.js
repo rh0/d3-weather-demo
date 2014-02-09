@@ -31,12 +31,12 @@ angular.module('graphTest', [])
               .orient("left");
 
           var tempLine = d3.svg.line()
-              .interpolate("basis")
+              .interpolate("cardinal")
               .x(function(d) { return x(parseDate( d.observation_time )); })
               .y(function(d) { return y(d.temp_f); });
 
           var dewLine = d3.svg.line()
-              .interpolate("basis")
+              .interpolate("cardinal")
               .x(function(d) { return x(parseDate( d.observation_time )); })
               .y(function(d) { return y(d.dewpoint_f); });
 
@@ -109,23 +109,37 @@ angular.module('graphTest', [])
               .attr("d", dewLine);
 
           // Hover info
-          /*var focus = svg.append("g")
+          var tempFocus = svg.append("g")
+              .attr("class", "focus")
+              .style("display", "none");
+          var dewFocus = svg.append("g")
               .attr("class", "focus")
               .style("display", "none");
 
-          focus.append("circle")
+          tempFocus.append("circle")
+              .attr("r", 4.5);
+          dewFocus.append("circle")
               .attr("r", 4.5);
 
-          focus.append("text")
+          tempFocus.append("text")
+              .attr("x", 9)
+              .attr("dy", ".35em");
+          dewFocus.append("text")
               .attr("x", 9)
               .attr("dy", ".35em");
 
           svg.append("rect")
               .attr("class", "overlay")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-              .on("mouseover", function() { focus.style("display", null); } )
-              .on("mouseout", function() { focus.style("display", "none"); })
+              .attr("width", width)
+              .attr("height", height)
+              .on("mouseover", function() {
+                tempFocus.style("display", null);
+                dewFocus.style("display", null);
+              })
+              .on("mouseout", function() {
+                tempFocus.style("display", "none");
+                dewFocus.style("display", "none");
+              })
               .on("mousemove", mousemove);
 
           function mousemove() {
@@ -134,9 +148,11 @@ angular.module('graphTest', [])
                 d0 = weatherData[i -1],
                 d1 = weatherData[i],
                 d = x0 - parseDate( d0.observation_time ) > parseDate( d1.observation_time ) - x0 ? d1 : d0;
-            focus.attr("transform", "translate(" + x(parseDate(d.observation_time)) + "," + y(d.temp_f) + ")");
-            focus.select("text").text(d.temp_f);
-          }*/
+            tempFocus.attr("transform", "translate(" + x(parseDate(d.observation_time)) + "," + y(d.temp_f) + ")");
+            tempFocus.select("text").text(d.temp_f);
+            dewFocus.attr("transform", "translate(" + x(parseDate(d.observation_time)) + "," + y(d.dewpoint_f) + ")");
+            dewFocus.select("text").text(d.dewpoint_f);
+          }
         });
       }
     };
