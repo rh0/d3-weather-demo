@@ -4,12 +4,16 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/vendors/d3/d3.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
-    <script src="/javascripts/directives/d3Test.js"></script>
   </head>
-  <body ng-app='graphTest'>
+  <body ng-app='noaaDataApp'>
     <h1><%= title %></h1>
     <div graph-line class="graph-wrapper"></div>
+
+    <!-- Scripts -->
+    <script src="/javascripts/vendors/d3/d3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+    <script src="/javascripts/app/app.js"></script>
+    <script src="/javascripts/app/services/chartData.js"></script>
+    <script src="/javascripts/app/directives/d3Test.js"></script>
   </body>
 </html>
