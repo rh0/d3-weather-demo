@@ -16,10 +16,10 @@ var noaa = require('./util/noaa');
 
 // Initializing a cron task to ultimately check noaa data
 // and write it to mongo.
-new cronJob('0 0 * * * *', function() {
+/*new cronJob('0 0 * * * *', function() {
   console.log('jsCron firing every hour.');
   noaa.fetchNoaaData();
-}, null, true, "America/Chicago");
+}, null, true, "America/Chicago");*/
 
 
 var app = express();

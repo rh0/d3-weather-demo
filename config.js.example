@@ -1,6 +1,8 @@
 /**
  * Config file to store sensitive mongo db connection information.
- * This should not be included in your repository!
+ * Create a file called config.js in the root of the application.
+ * It should look like this file, but with your mongo creds filled in.
+ * This new file should not be included in your repository!
  */
 var config = {}
 
