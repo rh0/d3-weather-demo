@@ -11,4 +11,4 @@ var noaaSchema = mongoose.Schema({
 
 module.exports = mongoose.model('NoaaData', noaaSchema);
 
-mongoose.connect('mongodb://config.dbUser:config.dbPw@config.dbPath');
+mongoose.connect('mongodb://' + config.dbUser + ':' + config.dbPw + '@' + config.dbPath);
