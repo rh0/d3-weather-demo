@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var config = require("../config");
 
 var noaaSchema = mongoose.Schema({
   location: String,
@@ -10,4 +11,4 @@ var noaaSchema = mongoose.Schema({
 
 module.exports = mongoose.model('NoaaData', noaaSchema);
 
-mongoose.connect('mongodb://heroku_app21958260:6p4ho4pf059p2tklur2c2369va@ds027729.mongolab.com:27729/heroku_app21958260');
+mongoose.connect('mongodb://config.dbUser:config.dbPw@config.dbPath');

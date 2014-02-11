@@ -1,0 +1,11 @@
+/**
+ * Config file to store sensitive mongo db connection information.
+ * This should not be included in your repository!
+ */
+var config = {}
+
+config.dbUser = "database-username";
+config.dbPw = "database-password";
+config.dbPath = "database-path";
+
+module.exports = config;
