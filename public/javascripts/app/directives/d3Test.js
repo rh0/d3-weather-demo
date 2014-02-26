@@ -5,10 +5,13 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
       chartData.getWeatherData(function(weatherData) {
 
         var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            fullWidth = 720,
+            fullHeight = 430,
+            width = fullWidth - margin.left - margin.right,
+            height = fullHeight - margin.top - margin.bottom;
 
-        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse,
+        var dateOut = new Date,
+            parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse,
             bisectDate = d3.bisector(function(d) { return parseDate(d.observation_time); }).left;
 
         var x = d3.time.scale()
@@ -37,8 +40,10 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
             //.attr("width", width + margin.left + margin.right)
             //.attr("heght", height + margin.top + margin.bottom)
             // Firefox fix.
-            .attr("width", window.innerWidth)
-            .attr("height", window.innerHeight)
+            //.attr("width", '100%')
+            //.attr("height", '100%')
+            .attr('viewBox', '0 0 ' + fullWidth + ' ' + fullHeight)
+            .attr('preserveAspectRatio', 'xMinYMin meet')
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -148,6 +153,8 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
           scope.$apply(function() {
             scope.hover.temp = d.temp_f;
             scope.hover.dew = d.dewpoint_f;
+            dateOut.setTime(Date.parse(d.observation_time));
+            scope.hover.obsTime = dateOut.toString();
           });
         }
       });

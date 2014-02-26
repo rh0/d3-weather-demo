@@ -8,12 +8,12 @@
   <body ng-app='noaaDataApp'>
     <div class="main-container" ng-controller="WeatherDetailsCtrl">
       <h1><%= title %></h1>
-      <h2>{{greetings}}</h3>
+      <div graph-line class="graph-wrapper"></div>
       <div class="details">
+        <span class="obsTime">Time of Observation:<br>{{hover.obsTime}}</span><br>
         <span class="temp">Temperature (F): {{hover.temp}}</span><br>
         <span class="dew">Dewpoint (F): {{hover.dew}}</span>
       </div>
-      <div graph-line class="graph-wrapper"></div>
     </div>
 
     <!-- Scripts -->

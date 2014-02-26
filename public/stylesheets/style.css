@@ -33,3 +33,18 @@ a {
   fill: none;
   stroke: steelblue;
 }
+
+.main-container {
+  display: block;
+  width: 66%;
+  margin: 0 auto;
+}
+
+.graph-wrapper {
+  width: 75%;
+  float: left;
+}
+
+.details {
+  font-size: 15px;
+}
