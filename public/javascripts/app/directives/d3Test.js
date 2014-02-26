@@ -1,5 +1,6 @@
 angular.module('noaaDataApp').directive('graphLine', function(chartData) {
   return {
+    scope: false,
     link: function(scope, element, attrs) {
       chartData.getWeatherData(function(weatherData) {
 
@@ -144,6 +145,10 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
           tempFocus.select("text").text(d.temp_f);
           dewFocus.attr("transform", "translate(" + x(parseDate(d.observation_time)) + "," + y(d.dewpoint_f) + ")");
           dewFocus.select("text").text(d.dewpoint_f);
+          scope.$apply(function() {
+            scope.hover.temp = d.temp_f;
+            scope.hover.dew = d.dewpoint_f;
+          });
         }
       });
     }
