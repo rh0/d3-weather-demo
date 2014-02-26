@@ -6,8 +6,15 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body ng-app='noaaDataApp'>
-    <h1><%= title %></h1>
-    <div graph-line class="graph-wrapper"></div>
+    <div class="main-container" ng-controller="WeatherDetailsCtrl">
+      <h1><%= title %></h1>
+      <h2>{{greetings}}</h3>
+      <div class="details">
+        <span class="temp">Temperature (F): {{hover.temp}}</span><br>
+        <span class="dew">Dewpoint (F): {{hover.dew}}</span>
+      </div>
+      <div graph-line class="graph-wrapper"></div>
+    </div>
 
     <!-- Scripts -->
     <script src="/javascripts/vendors/d3/d3.js"></script>
@@ -15,5 +22,6 @@
     <script src="/javascripts/app/app.js"></script>
     <script src="/javascripts/app/services/chartData.js"></script>
     <script src="/javascripts/app/directives/d3Test.js"></script>
+    <script src="/javascripts/app/controllers/detailsController.js"></script>
   </body>
 </html>
