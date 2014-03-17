@@ -2,7 +2,7 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
   return {
     scope: false,
     link: function(scope, element, attrs) {
-      chartData.getWeatherData(function(weatherData) {
+      chartData.getWeatherData().then(function(weatherData) {
 
         var margin = { top: 20, right: 20, bottom: 30, left: 50 },
             fullWidth = 720,
