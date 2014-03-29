@@ -28,12 +28,12 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
 
         var tempLine = d3.svg.line()
             .interpolate("cardinal")
-            .x(function(d) { return x(parseDate( d.observation_time )); })
+            .x(function(d) { return x(parseDate(d.observation_time)); })
             .y(function(d) { return y(d.temp_f); });
 
         var dewLine = d3.svg.line()
             .interpolate("cardinal")
-            .x(function(d) { return x(parseDate( d.observation_time )); })
+            .x(function(d) { return x(parseDate(d.observation_time)); })
             .y(function(d) { return y(d.dewpoint_f); });
 
         var svg = d3.select(element[0]).append("svg")
@@ -89,8 +89,6 @@ angular.module('noaaDataApp').directive('graphLine', function(chartData) {
             .attr("fill", "lightblue")
             .attr("font-size", "45px")
             .attr("font-weight", "bold");
-
-
 
         // Appending Temp Line
         svg.append("path")
