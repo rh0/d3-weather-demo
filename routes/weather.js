@@ -4,7 +4,8 @@
 var NoaaData = require('../model/db');
 
 exports.fetchWeather = function(req, res) {
-  NoaaData.find({}, function(err, docs) {
+  var q = NoaaData.find({}).limit(200);
+  q.exec(function(err, docs) {
     res.send(docs);
   });
 }
